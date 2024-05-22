@@ -12,9 +12,20 @@ def index():
 @app.route('/weather')
 def weather():
     city = request.args.get('city')
+
+    if not bool(city.strip()):
+        city = "Pune"
+
     weather_data = get_weather(city)
+
+    if not weather_data['cod'] == 200:
+        return render_template('city-not-found.html', 
+                               title='Error', 
+                               message=f"Error: {weather_data['message']}" )
+    
     return render_template('weather.html', 
                            title='Weather data', 
+                           city=city.capitalize(),
                            status=weather_data['weather'][0]['description'].capitalize(), 
                            temp=weather_data['main']['temp'], 
                            feels_like=f"{weather_data['main']['feels_like']:.1f}",

@@ -15,6 +15,10 @@ if __name__ == "__main__":
     print('\n*** GETTING WEATHER DATA ***\n')
 
     city = input("Enter city name: ")  
+
+    if not bool(city.strip()):
+        city = "Pune"
+        
     weather_data = get_weather(city)
     pprint('\n')
     pprint(weather_data) 
